@@ -1,0 +1,189 @@
+---
+title: "*sindicatoscl*"
+subtitle: "Paquete en R para acceder a registro administrativo de sindicatos"  
+author: 
+  - "Nicolás Ratto"
+date: '`r Sys.Date()`'
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: xaringan-themer.css
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_duo_accent(
+  primary_color = "#1381B0",
+  secondary_color = "#1381B0",
+  inverse_header_color = "#FFFFFF"
+)
+```
+
+```{r echo=FALSE,include=FALSE}
+#pagedown::chrome_print(input="presentacion.html",output="presentacion.pdf")
+```
+
+---
+
+class: inverse, center, middle
+
+# Introducción
+
+---
+
+# Introducción
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+library(sindicatoscl)
+library(dplyr)
+library(ggplot2)
+```
+
+--
+
+Paquete desarrollado en el marco del [Repositorio de Estadísticas Sindicales](https://repositoriosindical.netlify.app/)
+
+--
+
+El paquete permite disponer de una "base de datos" con el listado de todos los sindicatos activos y en receso en Chile y, sus principales características.
+
+--
+
+El dataframe sindicatos contiene `r nrow(sindicatos)` observaciones, siendo las variables más relevantes:
+
++ tipo de sindicato
+
++ socios y socias
+
++ fecha de constitución
+
++ rut de empresa del sindicato
+
++ Actividad económica de la empresa
+
+---
+
+# Introducción
+
+El paquete utiliza y mejora la calidad de un [dato público de la DT](https://tramites.dirtrab.cl/VentanillaTransparencia/Transparencia/RerporteRRLLOrg.aspx), pero que es de difícil acceso y manipulación.
+
+--
+
+Este dato se actualiza prácticamente en tiempo real, por lo que al analizarlo podemos anticiparnos a las tendencias en las relaciones laborales en Chile, sin necesidad de esperar los **Anuarios de la DT**.
+
+--
+
+Además, la data puede ser desagregada por mes, por lo que es posible evidenciar dentro de cada año una tendencia. 
+
+--
+
+La data sirve como marco muestral para estudios cuyas unidades de observación sean sindicatos.
+
+--
+
+La data permite encontrar información para empresas o sindicatos en específico (estudios de caso)
+
+
+---
+class: inverse, center, middle
+
+# Instalar y utilizar *sindicatoscl*
+
+---
+
+# Instalar paquete
+
+El paquete debe instalarse directamente desde [Github](https://github.com/nicolasrattor/sindicatoscl):
+
+```{r eval=FALSE, tidy=FALSE}
+devtools::install_github("nicolasrattor/sindicatoscl")
+library(sindicatoscl)
+```
+
+--
+
+# Visualizar la data
+
+```{r eval=FALSE}
+sindicatos
+```
+
+```{r echo=FALSE}
+sindicatos[1:2,1:5] %>% knitr::kable()
+```
+
+---
+
+# Visualizar la data
+
+```{r eval=FALSE,echo=FALSE, fig.align='center', out.width="80%"}
+serie <- constitucion_anual()
+plot(serie$ano,serie$sindicatos,type = "l")
+
+serie %>% 
+  ggplot(aes(ano, sindicatos)) + 
+  geom_line() +
+  labs(x = "año", y = "sindicatos",
+       title = "Número de sindicatos constituidos cada año") +
+  theme_bw()
+
+ggsave(
+  plot = last_plot(),
+  filename = "output/constitucion.png",
+  device = "png",
+  dpi = "retina",
+  units = "cm",
+  width = 30,
+  height = 20
+)
+
+```
+
+```{r echo=FALSE, fig.align='center', out.width="80%"}
+knitr::include_graphics("output/constitucion.png")
+```
+
+
+
+---
+class: inverse, middle, center
+
+# Construcción del dato
+
+---
+
+# Construcción del dato
+
+
+
+
+---
+class: inverse, middle, center
+
+# Funciones asociadas
+
+---
+
+# Funciones asociadas
+
+
+
+---
+
+# Citar como
+
++ Ratto, N. (2021). *sindicatoscl*: datos de sindicatos en Chile entre 1920 y 2021. Repositorio de Estadísticas Sindicales, Santiago, Chile. URL <http://nicolasrattor.github.io/sindicatoscl/>
+
+# Más información y usos prácticos
+
++ Ratto, N., Laffert, A. y Marchant, F. (2021) [*Minuta N°1: Sindicatos en la coyuntura del estallido social y la pandemia (2018-2021).*](https://raw.githubusercontent.com/repositoriosindical/Ventanilla_Sindicatos_DT/main/Minuta1/Minuta1.pdf) Una descripción cuantitativa en base a registros administrativos públicos.
+
+
