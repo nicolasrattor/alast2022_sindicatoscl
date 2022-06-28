@@ -69,6 +69,8 @@ El dataframe sindicatos contiene `r nrow(sindicatos)` observaciones, siendo las 
 
 + Actividad económica de la empresa
 
++ Estado del sindicato
+
 ---
 
 # Introducción
@@ -81,7 +83,7 @@ Este dato se actualiza prácticamente en tiempo real, por lo que al analizarlo p
 
 --
 
-Además, la data puede ser desagregada por mes, por lo que es posible evidenciar dentro de cada año una tendencia. 
+Data puede ser desagregada por mes, por lo que es posible evidenciar dentro de cada año una tendencia. 
 
 --
 
@@ -110,6 +112,12 @@ library(sindicatoscl)
 
 --
 
+```{r echo=FALSE}
+knitr::include_graphics("input/git.png")
+```
+
+---
+
 # Visualizar la data
 
 ```{r eval=FALSE}
@@ -117,16 +125,104 @@ sindicatos
 ```
 
 ```{r echo=FALSE}
-sindicatos[1:2,1:5] %>% knitr::kable()
+sindicatos[1:5,c(9,1,3,15)] %>% knitr::kable()
 ```
 
 ---
 
-# Visualizar la data
+# Variables
 
-```{r eval=FALSE,echo=FALSE, fig.align='center', out.width="80%"}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+data_frame(variables=names(sindicatos),
+           descripción=c("Región de la dirección a la que se asocia el sindicato. Suele ser la de la casa matriz de la empresa (16 regiones)",
+                        "Identificador del sindicato",
+                        "Nombre del sindicato",
+                        "Estado del sindicato: ACTIVO, RECESO, DISUELTO, CADUCADO O ELIMINADO",
+                        "Tipo de sindicato: EMPRESA, ESTABLECIMIENTO, INDEPENDIENTE, INTER EMPRESA o TRANSITORIO",
+                        "Dirección a la que se asocia el sindicato. Suele ser la de la casa matriz de la empresa",
+                        "Número de socios de sindicato registrados en último trámite",
+                        "Número de socias de sindicato registrados en último trámite",
+                        "Fecha de constitución del sindicato",
+                        "Fecha de elección de directiva. Se usa como proxy de último trámite",
+                        "Nombre oficina de Inspección del Trabajo en que se hizo la constitución del sindicato",
+                        "Nombre de la empresa",
+                        "Rut de la empresa o de todas las empresas en las que existe el sindicato (caso interempresas)",
+                        "Clasificador de Actividad Económica de la empresa",
+                        "Número de socios y socias de sindicato registrados en último trámite"
+                         )) %>% 
+  slice(1:5) %>% 
+  knitr::kable()  %>% 
+  kableExtra::column_spec(1:2, width = "10cm")
+             
+```
+
+
+---
+
+# Variables
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+data_frame(variables=names(sindicatos),
+           descripción=c("Región de la dirección a la que se asocia el sindicato. Suele ser la de la casa matriz de la empresa (16 regiones)",
+                        "Identificador del sindicato",
+                        "Nombre del sindicato",
+                        "Estado del sindicato: ACTIVO, RECESO, DISUELTO, CADUCADO O ELIMINADO",
+                        "Tipo de sindicato: EMPRESA, ESTABLECIMIENTO, INDEPENDIENTE, INTER EMPRESA o TRANSITORIO",
+                        "Dirección a la que se asocia el sindicato. Suele ser la de la casa matriz de la empresa",
+                        "Número de socios de sindicato registrados en último trámite",
+                        "Número de socias de sindicato registrados en último trámite",
+                        "Fecha de constitución del sindicato",
+                        "Fecha de elección de directiva. Se usa como proxy de último trámite",
+                        "Nombre oficina de Inspección del Trabajo en que se hizo la constitución del sindicato",
+                        "Nombre de la empresa",
+                        "Rut de la empresa o de todas las empresas en las que existe el sindicato (caso interempresas)",
+                        "Clasificador de Actividad Económica de la empresa",
+                        "Número de socios y socias de sindicato registrados en último trámite"
+                         )) %>% 
+  slice(6:11) %>% 
+  knitr::kable()  %>% 
+  kableExtra::column_spec(1:2, width = "10cm")
+             
+```
+
+
+---
+
+# Variables
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+data_frame(variables=names(sindicatos),
+           descripción=c("Región de la dirección a la que se asocia el sindicato. Suele ser la de la casa matriz de la empresa (16 regiones)",
+                        "Identificador del sindicato",
+                        "Nombre del sindicato",
+                        "Estado del sindicato: ACTIVO, RECESO, DISUELTO, CADUCADO O ELIMINADO",
+                        "Tipo de sindicato: EMPRESA, ESTABLECIMIENTO, INDEPENDIENTE, INTER EMPRESA o TRANSITORIO",
+                        "Dirección a la que se asocia el sindicato. Suele ser la de la casa matriz de la empresa",
+                        "Número de socios de sindicato registrados en último trámite",
+                        "Número de socias de sindicato registrados en último trámite",
+                        "Fecha de constitución del sindicato",
+                        "Fecha de elección de directiva. Se usa como proxy de último trámite",
+                        "Nombre oficina de Inspección del Trabajo en que se hizo la constitución del sindicato",
+                        "Nombre de la empresa",
+                        "Rut de la empresa o de todas las empresas en las que existe el sindicato (caso interempresas)",
+                        "Clasificador de Actividad Económica de la empresa",
+                        "Número de socios y socias de sindicato registrados en último trámite"
+                         )) %>% 
+  slice(12:15) %>% 
+  knitr::kable()  %>% 
+  kableExtra::column_spec(1:2, width = "10cm")
+             
+```
+
+
+---
+
+# Sindicatos constituidos cada año
+
+`constitucion_anual()`
+
+```{r include=FALSE,echo=FALSE, fig.align='center'}
 serie <- constitucion_anual()
-plot(serie$ano,serie$sindicatos,type = "l")
 
 serie %>% 
   ggplot(aes(ano, sindicatos)) + 
@@ -147,13 +243,235 @@ ggsave(
 
 ```
 
-```{r echo=FALSE, fig.align='center', out.width="80%"}
+```{r echo=FALSE, fig.align='center', out.width="90%"}
 knitr::include_graphics("output/constitucion.png")
+```
+
+
+---
+
+# Sindicatos activos
+
+`activos_historico(desde=2018,hasta=2022)`
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, echo=FALSE}
+serie <- activos_historico(desde=2018,hasta=2022)
+serie$fecha <- lubridate::make_date(year=serie$ano,month=serie$mes)
+
+serie %>% 
+  ggplot(aes(fecha, sindicatos)) + 
+  geom_line() +
+  labs(x = "año", y = "sindicatos",
+       title = "Número de sindicatos activos cada mes desde 2018") +
+  theme_bw()
+```
+
+
+```{r echo=FALSE, eval=FALSE}
+ggsave(
+  plot = last_plot(),
+  filename = "output/activos_mes.png",
+  device = "png",
+  dpi = "retina",
+  units = "cm",
+  width = 33,
+  height = 20
+)
+```
+
+
+```{r echo=FALSE, fig.align='center', out.width="90%"}
+knitr::include_graphics("output/activos_mes.png")
 ```
 
 
 
 ---
+
+# Sindicatos activos
+
+`activos_historico(desde=1960,hasta=1975)`
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, echo=FALSE}
+serie <- activos_historico(desde=1960,hasta=1975)
+serie$fecha <- lubridate::make_date(year=serie$ano,month=serie$mes)
+
+serie %>% 
+  ggplot(aes(fecha, sindicatos)) + 
+  geom_line() +
+  labs(x = "año", y = "sindicatos",
+       title = "Número de sindicatos activos cada mes") +
+  theme_bw()
+```
+
+
+```{r echo=FALSE, eval=FALSE}
+ggsave(
+  plot = last_plot(),
+  filename = "output/activos_mes_2.png",
+  device = "png",
+  dpi = "retina",
+  units = "cm",
+  width = 33,
+  height = 20
+)
+```
+
+
+```{r echo=FALSE, fig.align='center', out.width="90%"}
+knitr::include_graphics("output/activos_mes_2.png")
+```
+
+
+---
+
+# Número de socios/as
+
+```{r message=FALSE, warning=FALSE}
+
+sum(sindicatos[sindicatos$estado=="ACTIVO",]$total_socis)
+
+
+```
+
+--
+
+```{r message=FALSE, warning=FALSE}
+
+summary(sindicatos[sindicatos$estado=="ACTIVO",]$total_socis)
+
+```
+
+--
+
+```{r message=FALSE, warning=FALSE}
+
+sindicatos[sindicatos$estado=="ACTIVO",] %>% group_by(tipo) %>% 
+  summarise(n=sum(total_socis))
+
+```
+
+---
+
+# Tasa de sindicalización
+
+**metodologia1** = Población Afiliada / Total de ocupados
+
+**metodologia2** = Población Afiliada / Total de ocupados (excluye asalariados s.público)
+
+**metodologia3** = Población Afiliada (excluye afiliados independientes) / Total de ocupados
+
+--
+
+Total ocupados (ENE último trimestre)
+
+```{r echo=FALSE}
+categoria_ocupacion<-janitor::clean_names(openxlsx::read.xlsx("https://www.ine.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/categoria.xlsx?sfvrsn=70dc54db_82",sheet = 2,startRow = 6) )
+nombres<-names(categoria_ocupacion)
+nombres<-nombres[c(1,2,4-1,6-1,8-1,10-1,12-1,14-1,16-1,18-1,20-1,22-1,24-1,26-1)]
+categoria_ocupacion<-openxlsx::read.xlsx("https://www.ine.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/categoria.xlsx?sfvrsn=70dc54db_82",sheet = 2,startRow = 7)
+categoria_ocupacion<-categoria_ocupacion[1:(nrow(categoria_ocupacion)-9),c(1,2,4,6,8,10,12,14,16,18,20,22,24,26)]
+names(categoria_ocupacion)<-nombres
+
+ene<-categoria_ocupacion %>%
+
+  dplyr::mutate(ft_ocupada1=poblacion_ocupada_total*1000,
+
+         ft_ocupada2=(poblacion_ocupada_total-independientes_empleadores_as-
+                        independientes_familiares_no_remunerados-asalariados_as_sector_publico_5)*1000,
+
+         ft_ocupada3=(asalariados_as_sector_privado+ personal_de_servicio_domestico_total_6)*1000) %>%
+
+  dplyr::select(ano, ft_ocupada1, ft_ocupada2 ,ft_ocupada3)
+
+# Ocupados
+tail(ene,1)$ft_ocupada3
+
+
+```
+--
+
+Población Afiliada sindicatos activos (excluye afiliados independientes)
+
+```{r echo=FALSE}
+# Sindicatos
+sum(sindicatos[sindicatos$estado=="ACTIVO"&
+             sindicatos$tipo!="SINDICATO INDEPENDIENTE",]$total_socis)
+
+```
+
+--
+
+```{r}
+round(1069645/5577515*100,2)
+```
+
+---
+
+# Tasa sindicalización (3)
+
+```{r echo=FALSE, eval=FALSE}
+tasas <-tasa_sindicalizacion(metodo="res") 
+
+tasas[13,] <- c(2022,NA,NA,round(1069645/5577515,2))
+                
+tasas <- tasas %>% mutate_at(c(2:4), ~.*100)
+
+merge(tasa_sindicalizacion("dt"),tasas,all = TRUE) %>% 
+  select(ano,tasa3,tasa_sind3) %>% 
+  rename(sindicatoscl=tasa3,
+         dt=tasa_sind3) %>% 
+  tidyr::pivot_longer(c(2:3)) %>% 
+  ggplot(aes(x=as.numeric(ano),y=value,color=name)) + 
+  geom_line() +
+  geom_point() +
+  scale_y_continuous(limits = c(5,25))+
+  labs(title = "Tasa de sindicalización. DT v/s sindicatoscl",
+        color = "Series\n",
+       x="Años",
+       y="Tasas") +
+  theme_bw() +
+  scale_color_manual(labels = c("Tasa de sindicalización oficial", 
+                                "Tasa de sindicalización alternativa"),
+                     values = c("darkgreen","darkred")) +
+  theme(legend.position = "bottom")
+```
+
+
+```{r eval=FALSE, echo=FALSE}
+ggsave(
+  plot = last_plot(),
+  filename = "output/tasas.png",
+  device = "png",
+  dpi = "retina",
+  units = "cm",
+  width = 25,
+  height = 15
+)
+```
+
+```{r echo=FALSE, out.width="90%"}
+knitr::include_graphics("output/tasas.png")
+```
+
+
+---
+
+# Buscar sindicatos / empresas
+
+
+---
+
+# Nivel empresa
+
+---
+
+# Tasa de sindicalización
+
+
+
+
+---
 class: inverse, middle, center
 
 # Construcción del dato
@@ -161,18 +479,6 @@ class: inverse, middle, center
 ---
 
 # Construcción del dato
-
-
-
-
----
-class: inverse, middle, center
-
-# Funciones asociadas
-
----
-
-# Funciones asociadas
 
 
 

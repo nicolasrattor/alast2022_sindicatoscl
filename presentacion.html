@@ -4,8 +4,9 @@
     <title>sindicatoscl</title>
     <meta charset="utf-8" />
     <meta name="author" content="Nicolás Ratto" />
-    <meta name="date" content="2022-06-21" />
+    <meta name="date" content="2022-06-27" />
     <script src="libs/header-attrs/header-attrs.js"></script>
+    <script src="libs/kePrint/kePrint.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
@@ -15,7 +16,7 @@ class: center, middle, inverse, title-slide
 # <em>sindicatoscl</em>
 ## Paquete en R para acceder a registro administrativo de sindicatos
 ### Nicolás Ratto
-### 2022-06-21
+### 2022-06-27
 
 ---
 
@@ -48,7 +49,7 @@ El paquete permite disponer de una "base de datos" con el listado de todos los s
 
 --
 
-El dataframe sindicatos contiene 39449 observaciones, siendo las variables más relevantes:
+El dataframe sindicatos contiene 39777 observaciones, siendo las variables más relevantes:
 
 + tipo de sindicato
 
@@ -59,6 +60,8 @@ El dataframe sindicatos contiene 39449 observaciones, siendo las variables más 
 + rut de empresa del sindicato
 
 + Actividad económica de la empresa
+
++ Estado del sindicato
 
 ---
 
@@ -72,7 +75,7 @@ Este dato se actualiza prácticamente en tiempo real, por lo que al analizarlo p
 
 --
 
-Además, la data puede ser desagregada por mes, por lo que es posible evidenciar dentro de cada año una tendencia. 
+Data puede ser desagregada por mes, por lo que es posible evidenciar dentro de cada año una tendencia. 
 
 --
 
@@ -102,6 +105,10 @@ library(sindicatoscl)
 
 --
 
+&lt;img src="input/git.png" width="1780" /&gt;
+
+---
+
 # Visualizar la data
 
 
@@ -110,18 +117,271 @@ sindicatos
 ```
 
 
-| region| rsu_raf|nombre                                                       |estado |tipo              |
-|------:|-------:|:------------------------------------------------------------|:------|:-----------------|
-|      9| 9040014|SINDICATO DE TRABAJADORES DE LA EMPRESA DE SERVICIOS GENESIS |RECESO |SINDICATO EMPRESA |
-|      8| 8010556|SINDICATO EMPRESA " GASTON A. SALDIAS RETAMAL"               |RECESO |SINDICATO EMPRESA |
+|fecha_constitucion | region|nombre                                                                                           | total_socis|
+|:------------------|------:|:------------------------------------------------------------------------------------------------|-----------:|
+|2003-06-15         |      9|SINDICATO DE TRABAJADORES DE LA EMPRESA DE SERVICIOS GENESIS                                     |          11|
+|2022-06-14         |      8|SINDICATO INTEREMPRESAS RAS                                                                      |          31|
+|1999-11-24         |      8|SINDICATO EMPRESA " GASTON A. SALDIAS RETAMAL"                                                   |           8|
+|2017-06-28         |     13|SINDICATO INTEREMPRESA NACIONAL DE TRABAJADORES SUBCONTRATADOS DE SERVICIOS Y ACTIVIDADES ANEXOS |          30|
+|2016-09-13         |     13|SINDICATO Nº1 DE EMPRESA HGR                                                                     |          46|
 
 ---
 
-# Visualizar la data
+# Variables
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; variables &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; descripción &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; region &lt;/td&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; Región de la dirección a la que se asocia el sindicato. Suele ser la de la casa matriz de la empresa (16 regiones) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; rsu_raf &lt;/td&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; Identificador del sindicato &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; nombre &lt;/td&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; Nombre del sindicato &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; estado &lt;/td&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; Estado del sindicato: ACTIVO, RECESO, DISUELTO, CADUCADO O ELIMINADO &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; tipo &lt;/td&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; Tipo de sindicato: EMPRESA, ESTABLECIMIENTO, INDEPENDIENTE, INTER EMPRESA o TRANSITORIO &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+---
+
+# Variables
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; variables &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; descripción &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; direccion &lt;/td&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; Dirección a la que se asocia el sindicato. Suele ser la de la casa matriz de la empresa &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; socios &lt;/td&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; Número de socios de sindicato registrados en último trámite &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; socias &lt;/td&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; Número de socias de sindicato registrados en último trámite &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; fecha_constitucion &lt;/td&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; Fecha de constitución del sindicato &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; fecha_ultima_directiva &lt;/td&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; Fecha de elección de directiva. Se usa como proxy de último trámite &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; nombre_oficina &lt;/td&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; Nombre oficina de Inspección del Trabajo en que se hizo la constitución del sindicato &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+---
+
+# Variables
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; variables &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; descripción &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; empresa &lt;/td&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; Nombre de la empresa &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; rut_empresa &lt;/td&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; Rut de la empresa o de todas las empresas en las que existe el sindicato (caso interempresas) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; cae &lt;/td&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; Clasificador de Actividad Económica de la empresa &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; total_socis &lt;/td&gt;
+   &lt;td style="text-align:left;width: 10cm; "&gt; Número de socios y socias de sindicato registrados en último trámite &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+---
+
+# Sindicatos constituidos cada año
+
+`constitucion_anual()`
 
 
 
-&lt;img src="output/constitucion.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="output/constitucion.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Sindicatos activos
+
+`activos_historico(desde=2018,hasta=2022)`
+
+
+
+
+
+
+
+&lt;img src="output/activos_mes.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+
+
+---
+
+# Sindicatos activos
+
+`activos_historico(desde=1960,hasta=1975)`
+
+
+
+
+
+
+
+&lt;img src="output/activos_mes_2.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Número de socios/as
+
+
+```r
+sum(sindicatos[sindicatos$estado=="ACTIVO",]$total_socis)
+```
+
+```
+## [1] 1185940
+```
+
+--
+
+
+```r
+summary(sindicatos[sindicatos$estado=="ACTIVO",]$total_socis)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##     0.0    26.0    40.0   106.6    86.0 22000.0
+```
+
+--
+
+
+```r
+sindicatos[sindicatos$estado=="ACTIVO",] %&gt;% group_by(tipo) %&gt;% 
+  summarise(n=sum(total_socis))
+```
+
+```
+## # A tibble: 5 x 2
+##   tipo                           n
+## * &lt;chr&gt;                      &lt;dbl&gt;
+## 1 SINDICATO EMPRESA         767320
+## 2 SINDICATO ESTABLECIMIENTO  69848
+## 3 SINDICATO INDEPENDIENTE   116295
+## 4 SINDICATO INTER EMPRESA   212108
+## 5 SINDICATO TRANSITORIO      20369
+```
+
+---
+
+# Tasa de sindicalización
+
+**metodologia1** = Población Afiliada / Total de ocupados
+
+**metodologia2** = Población Afiliada / Total de ocupados (excluye asalariados s.público)
+
+**metodologia3** = Población Afiliada (excluye afiliados independientes) / Total de ocupados
+
+--
+
+Total ocupados (ENE último trimestre)
+
+
+```
+## [1] 5577515
+```
+--
+
+Población Afiliada sindicatos activos (excluye afiliados independientes)
+
+
+```
+## [1] 1069645
+```
+
+--
+
+
+```r
+round(1069645/5577515*100,2)
+```
+
+```
+## [1] 19.18
+```
+
+---
+
+# Tasa sindicalización (3)
+
+
+
+
+
+
+&lt;img src="output/tasas.png" width="90%" /&gt;
+
+
+---
+
+# Buscar sindicatos / empresas
+
+
+---
+
+# Nivel empresa
+
+---
+
+# Tasa de sindicalización
+
 
 
 
@@ -133,18 +393,6 @@ class: inverse, middle, center
 ---
 
 # Construcción del dato
-
-
-
-
----
-class: inverse, middle, center
-
-# Funciones asociadas
-
----
-
-# Funciones asociadas
 
 
 
