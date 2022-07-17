@@ -4,34 +4,32 @@
     <title>sindicatoscl</title>
     <meta charset="utf-8" />
     <meta name="author" content="Nicolás Ratto" />
-    <meta name="date" content="2022-06-27" />
+    <meta name="date" content="2022-07-16" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <script src="libs/kePrint/kePrint.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
-class: center, middle, inverse, title-slide
 
-# <em>sindicatoscl</em>
+
+class: inverse, center, title-slide, middle
+
+# *sindicatoscl*
+
 ## Paquete en R para acceder a registro administrativo de sindicatos
-### Nicolás Ratto
-### 2022-06-27
 
----
+### [Nicolás Ratto](https://github.com/nicolasrattor/)
 
+### 2022-07-16
 
-
-
+&lt;a href="https://github.com/nicolasrattor/sindicatoscl" class="github-corner" aria-label="View source on Github"&gt;&lt;svg width="80" height="80" viewBox="0 0 250 250" style="fill:#fff; color:#151513; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"&gt;&lt;path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"&gt;&lt;/path&gt;&lt;path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"&gt;&lt;/path&gt;&lt;path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;style&gt;.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}&lt;/style&gt;
 
 
 
 
----
 
-class: inverse, center, middle
 
-# Introducción
 
 ---
 
@@ -94,6 +92,17 @@ class: inverse, center, middle
 ---
 
 # Instalar paquete
+
+Requisito tener instalado tidyverse
+
+--
+
+
+```r
+install.packages("tidyverse")
+```
+
+--
 
 El paquete debe instalarse directamente desde [Github](https://github.com/nicolasrattor/sindicatoscl):
 
@@ -274,6 +283,78 @@ sindicatos
 
 &lt;img src="output/activos_mes_2.png" width="90%" style="display: block; margin: auto;" /&gt;
 
+---
+
+# Ejemplo
+
+¿Cuál de los siguientes sindicatos estaba activo en marzo 2020?
+
+--
+
+&lt;img src="input/ej1.PNG" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Ejemplo
+
+¿Cuál de los siguientes sindicatos estaba activo en marzo 2020?
+
+&lt;img src="input/ej2.PNG" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Sindicatos activos
+
+--
+
+
+```r
+nrow(activos_en(ano=2020,mes=3))
+```
+
+```
+## [1] 12614
+```
+--
+
+
+```r
+nrow(activos_en(ano=2020,mes=4))
+```
+
+```
+## [1] 12565
+```
+
+--
+
+
+```r
+nrow(activos_en(ano=1973,mes=8))
+```
+
+```
+## [1] 3064
+```
+
+
+---
+
+# Número de socios/as
+
+Con número de socios/as se puede hacer algo similar.
+
+--
+
+Limitación de la data: no se registra el número de socios/as histórico, solamente el último reportado por las organizaciones. 
+
+--
+
+Mientras más nos alejamos del tiempo presente, menos confianza tendrá el número de socios/as.
+
+--
+
+Sin embargo, se podría trabajar con el supuesto (muy discutible) de que el último número de socio/as reportado, es el mismo número de socios/as de cuando el sindicato se constituyó. 
 
 ---
 
@@ -335,7 +416,7 @@ Total ocupados (ENE último trimestre)
 
 
 ```
-## [1] 5577515
+## [1] 5512026
 ```
 --
 
@@ -368,41 +449,172 @@ round(1069645/5577515*100,2)
 
 &lt;img src="output/tasas.png" width="90%" /&gt;
 
+--
+
+
+```r
+tasa_sindicalizacion(metodo="res")
+tasa_sindicalizacion(metodo="dt")
+```
+
 
 ---
 
 # Buscar sindicatos / empresas
 
 
+```r
+buscar_sindicatos(empresa_buscada="walmart",
+                  sindicato_buscado="lider")[c(1:9),c(3,4)]
+```
+
+```
+## # A tibble: 9 x 2
+##   nombre                                                                  estado
+##   &lt;chr&gt;                                                                   &lt;chr&gt; 
+## 1 "sindicato de empresa hipermercado valparaiso ltda. \" lider valparais~ ACTIVO
+## 2 "sindicato nº1 de empresa supermercado lider de arica"                  ACTIVO
+## 3 "sindicato de empresa lider valdivia"                                   ACTIVO
+## 4 "sindicato nº 2 lider bio bio- sl2bb"                                   ACTIVO
+## 5 "sindicato nº 3 empresa lider valdivia"                                 ACTIVO
+## 6 "sindicato empresa lider velasquez oeste"                               ACTIVO
+## 7 "sindicato unificado lider lonquen ltda."                               ACTIVO
+## 8 "sindicato hiper lider punta arenas"                                    ACTIVO
+## 9 "sindicato interempresa de trabajadores de supermercados lider, valpar~ ACTIVO
+```
+
+
+---
+
+# Buscar sindicatos / empresas
+
+
+```r
+buscar_sindicatos(empresa_buscada="",
+                  sindicato_buscado="Coca-Cola")[,c(3,4)]
+```
+
+```
+## # A tibble: 4 x 2
+##   nombre                                                                  estado
+##   &lt;chr&gt;                                                                   &lt;chr&gt; 
+## 1 sindicato de empresa peonetas y choferes coca-cola de rancagua          RECESO
+## 2 sindicato interempresa de trabajadores de transportes para coca-cola.   RECESO
+## 3 sindicato de trabajadores transportes andrade distribuidores de coca-c~ ACTIVO
+## 4 sindicato nacional de trabajadores de empresa nº2 coca-cola - embonor ~ RECESO
+```
+
+--
+
+Con esto se puede contar el N de sindicatos en cada empresa, identificar a quienes deberían participar de un estudio, etc.  
+
 ---
 
 # Nivel empresa
 
+En vez de colocar el foco en los sindicatos, puede ser de interés centrarse en las empresas con sindicatos y sus características. 
+
+--
+
+Para eso, hay que crear un nuevo conjunto de datos con la función `empresas_sindicatos_activos()`. Esta agrupa los datos por empresa.
+
+
+```r
+empresas &lt;- empresas_sindicatos_activos()
+```
+
+--
+
+
+```r
+empresas[1:2,]
+```
+
+```
+## # A tibble: 2 x 4
+##   rut_empresa sindicatos afiliads tamano_promedio
+##   &lt;chr&gt;            &lt;int&gt;    &lt;dbl&gt;           &lt;dbl&gt;
+## 1 81537600            73     9626            132.
+## 2 76134941            49     9212            188
+```
+
 ---
 
-# Tasa de sindicalización
+# Nivel empresa
 
+El rut de la empresa es el rut real, por lo que la información puede vincularse a otras fuentes de datos de empresas.
+
+--
+
+Se puede construir un indicador simple de fragmentación sindical: 
+
+--
+
+
+```r
+summary(empresas$sindicatos)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   1.000   1.000   1.000   1.535   1.000  73.000
+```
+
+--
+
+En promedio existen 1.53 sindicatos por empresa y en más del 75% de las empresas con sindicato solamente existe un sindicato.
+
+--
+
+Por [sector económico](https://nicolasrattor.github.io/sindicatoscl/articles/sii.html#indicador-de-fragmentaci%C3%B3n-sindical-por-sector-econ%C3%B3mico) también se puede calcular. 
+
+--
+
+**Spoiler:** Mayores tasas en ADMINISTRACION PUBLICA Y DEFENSA (2.29), SUMINISTRO DE AGUA (2.05), EXPLOTACION DE MINAS Y CANTERAS (2.05) y COMERCIO AL POR MAYOR Y AL POR MENOR (1.70). 
+
+---
+
+# Tasa sindicalización por empresas
+
+Se consigue agregando datos públicos del Servicio de Impuestos Internos (SII). El dato trae ventas, rubro y NT por empresa. 
+
+
+```r
+datos &lt;- sii_agregar()
+datos[1:7,2:5]
+```
+
+```
+##   rut_empresa total_socis nt_sii tasa_sindicalizacion
+## 1    70574900        5874  27548          0.213227821
+## 2    70574900        1379  27548          0.050058080
+## 3    70574900        8232  27548          0.298823871
+## 4    70574900         442  27548          0.016044722
+## 5    70574900         796  27548          0.028895020
+## 6    70574900        4089  27548          0.148431828
+## 7    76134941         102  27372          0.003726436
+```
 
 
 
 ---
-class: inverse, middle, center
 
-# Construcción del dato
+## Referencias
 
----
++ Wickham, H. and Bryan, J. (2015) R packages. First edition. O'Reilly. 
 
-# Construcción del dato
-
++ Quiroga, R (2022). guaguas: Nombres Inscritos en Chile (1920 - 2021). R package version 0.3.0, https://github.com/rivaquiroga/guaguas. 
 
 
----
+--
 
-# Citar como
+## Citar como
 
 + Ratto, N. (2021). *sindicatoscl*: datos de sindicatos en Chile entre 1920 y 2021. Repositorio de Estadísticas Sindicales, Santiago, Chile. URL &lt;http://nicolasrattor.github.io/sindicatoscl/&gt;
 
-# Más información y usos prácticos
+--
+
+## Más información y usos prácticos
 
 + Ratto, N., Laffert, A. y Marchant, F. (2021) [*Minuta N°1: Sindicatos en la coyuntura del estallido social y la pandemia (2018-2021).*](https://raw.githubusercontent.com/repositoriosindical/Ventanilla_Sindicatos_DT/main/Minuta1/Minuta1.pdf) Una descripción cuantitativa en base a registros administrativos públicos.
 
